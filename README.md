@@ -15,3 +15,34 @@ The other one will consumen those transaction events, check if they are fradulen
 
 This repo is built using [this](https://dev.to/florimondmanca/breaking-news-everything-is-an-event-streams-kafka-and-you-2n9j)  blog post. 
 [Building A Streaming Fraud Detection System With Kafka And Python](https://dev.to/florimondmanca/breaking-news-everything-is-an-event-streams-kafka-and-you-2n9j)
+
+![Topics](https://res.cloudinary.com/practicaldev/image/fetch/s--gkM6dgTn--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://florimondmanca-personal-website.s3.amazonaws.com/media/markdownx/288f76de-ccdb-4be3-83d8-672e0f9dd326.png)
+# Instructions
+
+1. Clone the repo
+   ```bash
+   git clone https://github.com/STT-Data-Engineering/Kafka-Docker-Setup-With-Demo.git
+   ```
+2. Start zookeeper and kafka containers
+   `docker-compose -f docker-compose.kafka.yml up`
+3. Start The clients with another terminal window
+   ```bash
+   docker-compose up
+   ```
+
+
+To inspect if the clients are really communicating with the broker, you can use the following:
+
+To check the generator:
+    ```bash
+    docker-compose -f docker-compose.kafka.yml exec broker kafka-console-consumer --bootstrap-server localhost:9092 --topic queueing.transactions --from-beginning
+    ```
+
+To check the detector:
+    ```bash
+    docker-compose -f docker-compose.kafka.yml exec broker kafka-console-consumer --bootstrap-server localhost:9092 --topic streaming.transactions.legit
+    ```
+    and
+    ```bash
+    docker-compose -f docker-compose.kafka.yml exec broker kafka-console-consumer --bootstrap-server localhost:9092 --topic streaming.transactions.fraud
+    ```
