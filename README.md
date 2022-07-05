@@ -9,7 +9,7 @@ This is a demo project showing how to create a stream data processing system
 
 The demo project is a fraud detection system. It will have two clients.
 One of the clients will be a producer generating the transactions as a stream of data.
-The other one will consumen those transaction events, check if they are fradulent, and publish them on separate topics based on the result from the checking. 
+The other one will consumen those transaction events, check if they are fradulent, and publish them on separate topics based on the result from the checking.
 
 ![image](https://user-images.githubusercontent.com/39389971/177281929-47bb7e5b-de9d-41f5-a316-ee338fa3f11e.png)
 
@@ -23,26 +23,33 @@ This repo is built using [this](https://dev.to/florimondmanca/breaking-news-ever
    ```bash
    git clone https://github.com/STT-Data-Engineering/Kafka-Docker-Setup-With-Demo.git
    ```
-2. Start zookeeper and kafka containers
-   `docker-compose -f docker-compose.kafka.yml up`
-3. Start The clients with another terminal window
+2. Create the docker network that the broker and clients would communicate with
+   ```bash
+   docker network create kafka-network
+   ```
+3. Start zookeeper and kafka containers
+   ```bash
+   docker-compose -f docker-compose.kafka.yml up
+   ```
+4. Start The clients with another terminal window
    ```bash
    docker-compose up
    ```
 
-
 To inspect if the clients are really communicating with the broker, you can use the following:
 
 To check the generator:
-    ```bash
-    docker-compose -f docker-compose.kafka.yml exec broker kafka-console-consumer --bootstrap-server localhost:9092 --topic queueing.transactions --from-beginning
-    ```
+```bash
+docker-compose -f docker-compose.kafka.yml exec broker kafka-console-consumer --bootstrap-server localhost:9092 --topic queueing.transactions --from-beginning
+```
 
 To check the detector:
-    ```bash
-    docker-compose -f docker-compose.kafka.yml exec broker kafka-console-consumer --bootstrap-server localhost:9092 --topic streaming.transactions.legit
-    ```
-    and
-    ```bash
-    docker-compose -f docker-compose.kafka.yml exec broker kafka-console-consumer --bootstrap-server localhost:9092 --topic streaming.transactions.fraud
-    ```
+```bash
+docker-compose -f docker-compose.kafka.yml exec broker kafka-console-consumer --bootstrap-server localhost:9092 --topic streaming.transactions.legit
+```
+
+and
+
+```bash
+docker-compose -f docker-compose.kafka.yml exec broker kafka-console-consumer --bootstrap-server localhost:9092 --topic streaming.transactions.fraud
+```
